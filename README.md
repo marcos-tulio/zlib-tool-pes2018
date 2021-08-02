@@ -12,6 +12,7 @@ C:\> java -jar zlib-tool-pes2018.jar [-option] [file_path]
 
  [-db] [file_path] -> decompress file reading sizes in big endian format
  [-cb] [file_path] -> compress file and save sizes in big endian format
+ [-cdds] [file_path] -> compress file and save dds default header (PS3)
 ```
 #### Example
 ```
