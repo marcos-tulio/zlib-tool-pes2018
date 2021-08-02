@@ -1,9 +1,5 @@
 package com.github.marcos.tulio;
 
-import com.jcraft.jzlib.Deflater;
-import com.jcraft.jzlib.GZIPException;
-import com.jcraft.jzlib.Inflater;
-import com.jcraft.jzlib.JZlib;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,21 +9,28 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import com.jcraft.jzlib.Deflater;
+import com.jcraft.jzlib.GZIPException;
+import com.jcraft.jzlib.Inflater;
+import com.jcraft.jzlib.JZlib;
+
 /**
  *
  * @author MrCapybara
  */
 public class ZlibTools {
 
-    private static final String DESC_NAME_END = "_descompressed";
-    private static final String COMP_NAME_END = "_compressed";
+    private static final String DESC_NAME = "uzlb_";
+    private static final String COMP_NAME = "zlib_";
 
-    private static final byte[] HEADER = {0x02, 0x10, (byte) 0x81, 0x57, 0x45, 0x53, 0x59, 0x53};
+    public static byte[] header = {0x02, 0x10, (byte) 0x81, 0x57, 0x45, 0x53, 0x59, 0x53};
 
     public static boolean descompress(String path, boolean isBig) {
         try {
+            File f = new File(path);
+
             //Create a vector with all bytes of the file
-            byte[] c = Files.readAllBytes(new File(path).toPath());
+            byte[] c = Files.readAllBytes(f.toPath());
 
             byte[] cLenght;
             byte[] dLenght;
@@ -70,7 +73,7 @@ public class ZlibTools {
 
             FileOutputStream fos;
             //Save descompress file in a new file
-            fos = new FileOutputStream(path.concat(DESC_NAME_END));
+            fos = new FileOutputStream(f.getParent() + File.separator + DESC_NAME + f.getName());
             fos.write(descompress);
             fos.close();
 
@@ -84,8 +87,10 @@ public class ZlibTools {
 
     public static boolean compress(String path, boolean isBig) {
         try {
+            File f = new File(path);
+
             //Create a vector with all bytes of the file
-            byte[] descompress = Files.readAllBytes(new File(path).toPath());
+            byte[] descompress = Files.readAllBytes(f.toPath());
 
             //Create a vector that will receive output bytes
             byte[] compress = new byte[descompress.length];
@@ -121,14 +126,14 @@ public class ZlibTools {
             }
 
             //Save bytes in a new file
-            OutputStream stream = new FileOutputStream(path.concat(COMP_NAME_END));
+            OutputStream stream = new FileOutputStream(f.getParent() + File.separator + COMP_NAME + f.getName());
             DataOutputStream out = new DataOutputStream(stream);
 
             byte[] dLenght =  ByteBuffer.allocate(4).putInt(descompress.length).array();
             byte[] cLenght =  ByteBuffer.allocate(4).putInt(offset).array();
 
             //Save header
-            out.write(HEADER);
+            out.write(header);
 
             //Save compress and descompress size
             if (isBig){
