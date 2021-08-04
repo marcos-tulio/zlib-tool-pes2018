@@ -6,10 +6,10 @@ public class App{
 
         if (args == null || args.length != 2){
             System.err.println("Usage: " +
-                "\n [-d] [file_path] -> decompress file" + 
+                "\n [-d] [file_path] -> descompress file" + 
                 "\n [-c] [file_path] -> compress file" +
 
-                "\n\n [-db] [file_path] -> decompress file reading sizes in big endian format" +
+                "\n\n [-db] [file_path] -> descompress file reading sizes in big endian format" +
                 "\n [-cb] [file_path] -> compress file and save sizes in big endian format" + 
 
                 "\n\n [-cdds] [file_path] -> compress file and save dds default header (PS3)"
