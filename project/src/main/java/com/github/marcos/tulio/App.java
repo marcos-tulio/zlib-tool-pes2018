@@ -40,7 +40,7 @@ public class App{
                 break;
 
             /** descompress big endian */
-            case "-de":
+            case "-db":
                 if (ZlibTools.descompress(args[1], true))
                     System.out.println("Descompressed with big endian successfully!");
                 else
@@ -48,7 +48,7 @@ public class App{
                 break;
 
             /** compress big endian */
-            case "-ce":
+            case "-cb":
                 if (ZlibTools.compress(args[1], true))
                     System.out.println("Compressed with big endian successfully!");
                 else
